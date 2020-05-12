@@ -1,0 +1,35 @@
+{
+  "ReRoutes": [
+    {
+      "DownstreamPathTemplate": "/weatherforecast",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "ec2-18-223-118-47.us-east-2.compute.amazonaws.com",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/weatherforecast",
+      "UpstreamHttpMethod": [
+        "Get"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/weatherforecast",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "ec2-3-15-204-5.us-east-2.compute.amazonaws.com",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/es/weatherforecast",
+      "UpstreamHttpMethod": [
+        "Get"
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5000"
+  }
+}
