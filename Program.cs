@@ -1,12 +1,8 @@
-using System.IO;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Ocelot.DependencyInjection;
-using Ocelot.Middleware;
+using System.IO;
 
 namespace OcelotBasic
 {
@@ -28,10 +24,6 @@ namespace OcelotBasic
                        .AddEnvironmentVariables();
                })
                .UseStartup<Startup>()
-               .ConfigureLogging((hostingContext, logging) =>
-               {
-                   //add your logging
-               })
                .Build()
                .Run();
         }

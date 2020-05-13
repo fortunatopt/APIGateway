@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -15,34 +8,38 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
-using OcelotBasic.Entities;
-using OcelotBasic.Services;
+using System.Text;
 
 namespace OcelotBasic
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+        public IWebHostEnvironment environment { get; }
+        public static readonly ILoggerFactory loggerFactory = LoggerFactory.Create(builder => {
+            builder.AddConsole();
+        });
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add CORS policy
+            // TODO: update CORS policy as needed
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
                 builder => builder.AllowAnyOrigin()
-                //WithOrigins("http://mylocal.esri.com")
-                .AllowAnyMethod()
-                //.AllowCredentials())
-                .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    //WithOrigins("http://mylocal.esri.com")
+                    //.AllowCredentials())
                 );
             });
-            services.AddControllers();
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
@@ -68,16 +65,16 @@ namespace OcelotBasic
                     ValidateAudience = false
                 };
             });
-
-            // configure DI for application services
-            services.AddScoped<IUserService, UserService>();
-
+            // add Ocelot as a service
             services.AddOcelot();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Create logger
+            var logger = loggerFactory.CreateLogger<Program>();
+            // Use above configure CORS Policy
             app.UseCors("CorsPolicy");
 
             if (env.IsDevelopment())
@@ -85,15 +82,17 @@ namespace OcelotBasic
                 app.UseDeveloperExceptionPage();
             }
 
+            // Add routing, authentication, and authorization
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
 
+            // add Ocelot
             app.UseOcelot().Wait();
         }
+    }
+    public class AppSettings
+    {
+        public string Secret { get; set; }
     }
 }

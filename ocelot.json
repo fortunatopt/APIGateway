@@ -35,6 +35,20 @@
         "AuthenticationProviderKey": "JwtBearer",
         "AllowedScopes": []
       }
+    },
+    {
+      "DownstreamPathTemplate": "/users/authenticate",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "ec2-3-21-231-223.us-east-2.compute.amazonaws.com",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/users/authenticate",
+      "UpstreamHttpMethod": [
+        "Post"
+      ]
     }
   ],
   "GlobalConfiguration": {
