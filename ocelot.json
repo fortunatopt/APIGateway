@@ -12,7 +12,11 @@
       "UpstreamPathTemplate": "/weatherforecast",
       "UpstreamHttpMethod": [
         "Get"
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/weatherforecast",
@@ -26,7 +30,11 @@
       "UpstreamPathTemplate": "/es/weatherforecast",
       "UpstreamHttpMethod": [
         "Get"
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      }
     }
   ],
   "GlobalConfiguration": {
