@@ -33,10 +33,11 @@ namespace OcelotBasic
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
-                builder => builder.AllowAnyOrigin()
+                builder => builder
+                    .AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader()
-                    //WithOrigins("http://mylocal.esri.com")
+                    //.WithOrigins("http://d2vzqqvyx1utmp.cloudfront.net/", "http://webpoc.s3-website-us-west-2.amazonaws.com/")
                     //.AllowCredentials())
                 );
             });
